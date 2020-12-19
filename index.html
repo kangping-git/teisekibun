@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定積分</title>
+</head>
+<body>
+    <div id="fx"></div>
+    答え  <a id="str1" style="background-color: aqua;">ここに答えが表示されます</a><br>
+    <button onclick="henkou()">変更</button>
+    <button onclick="tuika()">追加</button>
+    <button onclick="keisan()">計算</button><br>
+    a<input id="a"><br>b<input id="b">
+    <script>
+        var fx = ""
+        var fx_list = []
+        var Fx = []
+        var f
+        var a
+        var b
+        html__()
+        function html__(){
+            fx = ""
+            for (x=fx_list.length-1;x >= 0;x-=1){
+                if (fx_list[x] != 0){
+                    if (x >= 2){
+                        if (fx_list[x] != 1 && fx_list[x] != -1){
+                            if (fx_list[x] > 0 && fx != ""){
+                                fx += "+" + fx_list[x] + "x<sup>" + x + "</sup>"
+                            }else{
+                                fx += fx_list[x] + "x<sup>" + x + "</sup>"
+                            }
+                        }else{
+                            if (fx_list[x] > 0 && fx != ""){
+                                fx += "+" + "x<sup>" + x + "</sup>"
+                            }else if (fx_list[x] > 0 && fx == ""){
+                                fx += "x<sup>" + x + "</sup>"
+                            }else{
+                                fx += "-x<sup>" + x + "</sup>"
+                            }
+                        }
+                    }else if(x == 1){
+                        if (fx_list[x] != 1 && fx_list[x] != -1){
+                            if (fx_list[x] > 0 && fx != ""){
+                                fx += "+" + fx_list[x] + "x"
+                            }else{
+                                fx += fx_list[x] + "x"
+                            }
+                        }else{
+                            if (fx_list[x] > 0 && fx != ""){
+                                fx += "+" + "x"
+                            }else if (fx_list[x] > 0 && fx == ""){
+                                fx += "x"
+                            }else{
+                                fx += "-x"
+                            }
+                        }
+                    }else{                        
+                        if (fx_list[x] > 0 && fx != ""){
+                            fx += "+" + fx_list[x]
+                        }else{
+                            fx += fx_list[x]
+                        }
+                    }
+                }
+            }
+            document.getElementById("fx").innerHTML = fx
+        }
+        function henkou(){
+            for (x=fx_list.length-1;x >= 0;x-=1){
+                if (x >= 2){
+                    f = prompt("x^" + x + "の項を入力してください")
+                }else if(x == 1){
+                    f = prompt("xの項を入力してください")
+                }else{
+                    f = prompt("定数項を入力してください")
+                }
+                fx_list[x] = f
+                Fx[x] = (1 / (x + 1)) * f
+            }
+            html__()
+        }
+        function tuika(){
+            x = fx_list.length
+            if (x >= 2){
+                f = prompt("x^" + x + "の項を入力してください")
+            }else if(x == 1){
+                f = prompt("xの項を入力してください")
+            }else{
+                f = prompt("定数項を入力してください")
+            }
+            fx_list.push(f)
+            Fx.push((1 / (x + 1)) * f)
+            html__()
+        }
+        function keisan(){
+            a = document.getElementById("a").value
+            b = document.getElementById("b").value
+            Fx1 = 0
+            Fx2 = 0
+            for (x=fx_list.length;x >= 1;x-=1){
+                Fx1 += Fx[x-1] * Math.pow(a,x)
+                Fx2 += Fx[x-1] * Math.pow(b,x)
+            }
+            document.getElementById("str1").innerText = Fx2-Fx1
+        }
+    </script>
+</body>
+</html>
